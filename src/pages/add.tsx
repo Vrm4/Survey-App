@@ -1,6 +1,14 @@
 import React, { useEffect, useState } from "react";
 import Question from "./question";
 
+type questionDatas = {
+    question : string , 
+    type : string 
+}
+type surveyDatas = [
+    surveyName : string , 
+    surveyQuestions : Array<questionDatas>
+]
 export default function Add() {
   const [questions  , setQuestions] = useState(1)
 
@@ -8,37 +16,42 @@ export default function Add() {
         e.preventDefault()
         console.log(e.currentTarget)
         const formData = new FormData(e.currentTarget)
-        console.log(formData.get('input1'))
+        var data : questionDatas[] = []
+        let i = 0
+        while (i < questions){
+          const titleD = formData.get(`input-${i}`)
+          const typeD = formData.get(`select-${i}`)
+          let questinD = {
+            question :titleD as string, 
+            type : typeD as string
+          }
+          data.push(questinD)
+          console.log(data)
+          i ++
+        }
+        const surveyD : surveyDatas = [
+          'Survey' , 
+          data
+        ]
+        fetch('/api/add-survey', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(surveyD)
+        })
+        .then(() => {
+          alert('Added')
+        })
+        .catch(error => {
+          alert('Error')
+          console.log(error)
+        });
+        console.log(surveyD)
     }
     const addQuestionHtml = () => {
       setQuestions(questions + 1)
     }
-  /*
-  const [questions  , setQuestions] = useState([
-    {
-      title : '', 
-      questionType : 'text'
-    }
-] as Array<{ title: string, questionType: string }>)
-
-    const handleSubmit = (e : React.FormEvent<HTMLFormElement>) : void => { 
-        e.preventDefault()
-        console.log(e.currentTarget)
-        const formData = new FormData(e.currentTarget)
-        console.log(formData.get('input1'))
-    }
-    const addQuestionHtml = () => {
-      setQuestions((prevQuestions ) => [
-        ...prevQuestions , { 
-          title : '', 
-          questionType : 'text'
-        }
-      ]);
-    }
-    useEffect(() => { 
-      console.log(questions)
-    })
-*/
   return (
     <div className="w-screen min-h-screen flex justify-center items-center relative">
       <div>
@@ -48,7 +61,7 @@ export default function Add() {
         </div>
         <div className="w-full max-w-lg mx-auto">
           {   new Array(questions).fill(0).map((value , key) =>(
-            <Question key={key} />
+            <Question key={key} name={key} />
           ))}
         </div>
         <div className="flex justify-evenly ">

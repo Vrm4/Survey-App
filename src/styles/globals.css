@@ -1,3 +1,17 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+*{
+    transition: 0.5s;
+}
+.bg-gradient-to-r {
+    background-image: linear-gradient(to right, #9AC1F0, #C4E1F6);
+}
+.box:hover {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 
+                0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+.wrapper div {
+    margin-bottom: 40px;
+}
