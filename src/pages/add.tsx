@@ -5,6 +5,7 @@ type questionDatas = {
     question : string , 
     type : string 
 }
+
 type surveyDatas = [
     surveyName : string , 
     surveyQuestions : Array<questionDatas>
