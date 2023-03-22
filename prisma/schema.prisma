@@ -7,7 +7,7 @@ generator client {
 
 datasource db {
   provider = "mongodb"
-  url      = env("your url")
+  url      = env("mongodb+srv://4142ridvan:7v6S7YlpbXgIozMK@projects.gnhbkju.mongodb.net/survey?retryWrites=true&w=majority")
 }
 
 model Survey {
@@ -20,4 +20,5 @@ type Question {
   question String 
   type String
 }
+
 

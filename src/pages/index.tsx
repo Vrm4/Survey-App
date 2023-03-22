@@ -15,32 +15,26 @@ export default function Home() {
   useEffect(() =>{
     getSurveys()
     .then((res) =>{
-      console.log(res)
+      setData(res)
     })
-    .catch((err) =>{
-      console.log(err)
+    .catch(() =>{
+      alert('Error')
     })
   } ,[])
 
+  useEffect(() => {
+    console.log(data)
+  } , [data])
   return (
     <div className="w-screen min-h-screen flex justify-center items-center relative">
       <div className="wrapper">
-        <div className="w-full md:w-96 rounded-xl bg-gradient-to-r from-blue-200 to-gray-500 p-6 hover:shadow-2xl">
-        <h1 className="text-white text-3xl font-bold">Başlık</h1>
-        <p className="text-white mt-4">Soru Sayısı : 5</p>
-      </div>
-      <div className="w-full md:w-96 rounded-xl bg-gradient-to-r from-blue-200 to-gray-500 p-6 hover:shadow-2xl">
-        <h1 className="text-white text-3xl font-bold">Başlık</h1>
-        <p className="text-white mt-4">Soru Sayısı : 5</p>
-      </div>
-      <div className="w-full md:w-96 rounded-xl bg-gradient-to-r from-blue-200 to-gray-500 p-6 hover:shadow-2xl">
-        <h1 className="text-white text-3xl font-bold">Başlık</h1>
-        <p className="text-white mt-4">Soru Sayısı : 5</p>
-      </div>
-      <div className="w-full md:w-96 rounded-xl bg-gradient-to-r from-blue-200 to-gray-500 p-6 hover:shadow-2xl">
-        <h1 className="text-white text-3xl font-bold">Başlık</h1>
-        <p className="text-white mt-4">Soru Sayısı : 5</p>
-      </div>
+        { data.length != 0 ? data.map((value : { title: string } , index : number) => (
+            <Link href='/survey' key={index}>
+              <div  className="w-full md:w-96 rounded-xl bg-gradient-to-r from-blue-200 to-gray-500 p-6 hover:shadow-2xl">
+                <h1 className="text-white text-3xl font-bold">{value.title}</h1>
+              </div>
+            </Link>
+        )) : null} 
       </div>
       <div className="absolute top-5 right-5 inline-flex grid gap-2">
         <Link href='/add'>

@@ -12,18 +12,12 @@ const prisma = new PrismaClient({
 
 async function getData() { 
     const survey = await prisma.survey.findMany({
-        select : { 
-            title  : true
+        select : {
+            title : true, 
+            id : true 
         }
     })
-    const surveyCount = await prisma.survey.count({
-        where : {
-            questions: {
-                some: {},
-              },
-        }
-    })
-    return {survey,surveyCount}
+    return survey
 }
 
 export default function handler(req: NextApiRequest,res: NextApiResponse) {
@@ -33,7 +27,7 @@ export default function handler(req: NextApiRequest,res: NextApiResponse) {
             res.status(200).json(response)
         })
         .catch((err) =>{
-            res.status(500).send('Error')
+            console.log(err)
         })
     }
 }
