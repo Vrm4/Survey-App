@@ -9,8 +9,6 @@ const getSurveys = async () =>{
   return result
 }
 
-
-
 export default function Home() {
   const [data , setData] = useState([])
 

@@ -9,14 +9,20 @@ const prisma = new PrismaClient({
   },
 })
 
+type subQuestion = {
+    value : string , 
+    number  : number | string
+}
+
 async function main(surveyName : string  , questionArray : Array<{
     question: string,
-    type: string
+    type: string , 
+    subQuestion : Array<subQuestion>
 }>) { 
     const survey = await prisma.survey.create({
         data: {
             title: surveyName,
-            questions: questionArray
+            questions: questionArray,
         }
     })
     console.log(survey)

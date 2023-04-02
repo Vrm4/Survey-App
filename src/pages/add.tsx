@@ -3,63 +3,91 @@ import Question from "./question";
 
 type questionDatas = {
     question : string , 
-    type : string 
+    type : string  , 
+    subQuestion : Array<subQuestion>
 }
-
-
 type surveyDatas = [
     surveyName : string , 
     surveyQuestions : Array<questionDatas>
 ]
+type subQuestion = {
+    value : string , 
+    number  : number | string
+}
 export default function Add() {
   const [questions  , setQuestions] = useState(1)
-
+  const groupInputs = (formElements: HTMLInputElement[] , inputName : string) =>  {
+    const inputGroups = {};
+  
+    formElements
+      .filter((input: HTMLInputElement) => input.type === 'text' && input.name.startsWith(inputName))
+      .forEach((input: HTMLInputElement) => {
+        const inputNameParts = input.name.split('-');
+        const groupName = inputNameParts[2];
+        const inputNumber = inputNameParts[3];
+  
+        if (!inputGroups[groupName]) {
+          inputGroups[groupName] = [];
+        }
+  
+        inputGroups[groupName].push({
+          value: input.value,
+          number: inputNumber,
+        });
+      });
+  
+    return inputGroups;
+  }
     const handleSubmit = (e : React.FormEvent<HTMLFormElement>) : void => { 
         e.preventDefault()
         const formElements = Array.from(e.currentTarget.elements) as HTMLInputElement[];
-        const checkboxValues = formElements
-          .filter((input: HTMLInputElement) => input.type === 'text' && input.name.startsWith('input-checkbox-'))
-          .map((input: HTMLInputElement) => input.value);        
-        const radioValues = formElements
-          .filter((input: HTMLInputElement) => input.type === 'text' && input.name.startsWith('input-radio-'))
-          .map((input: HTMLInputElement) => input.name);   
-        console.log(radioValues,checkboxValues)
+        const checkboxArray = groupInputs(formElements , 'input-checkbox-') as any
+        const radioArray = groupInputs(formElements , 'input-radio-') as any
+
+        const formData = new FormData(e.currentTarget)
+        const surveyName  = formData.get('surveyName') as string
+
+        var data : questionDatas[] = []
+        let i = 0
+        while (i < questions){
+          let currentValue ;
+          if(checkboxArray[i] != undefined){
+              currentValue = checkboxArray[i]
+              console.log(currentValue)
+          }
+          if(radioArray[i] != undefined){
+              currentValue = radioArray[i]
+              console.log(currentValue)
+          }
+          const titleD = formData.get(`input-${i}`)
+          const typeD = formData.get(`select-${i}`)
+          let questinD = {
+            question :titleD as string, 
+            type : typeD as string , 
+            subQuestion : currentValue
+          }
+          data.push(questinD)
+          i ++
+        }
+        const surveyD : surveyDatas = [
+          surveyName, 
+          data
+        ]
         
-        //console.log(e.currentTarget)
-        // const formData = new FormData(e.currentTarget)
-        // var data : questionDatas[] = []
-        // let i = 0
-        // while (i < questions){
-        //   const titleD = formData.get(`input-${i}`)
-        //   const typeD = formData.get(`select-${i}`)
-        //   let questinD = {
-        //     question :titleD as string, 
-        //     type : typeD as string
-        //   }
-        //   data.push(questinD)
-        //   console.log(data)
-        //   i ++
-        // }
-        // const surveyD : surveyDatas = [
-        //   'Survey' , 
-        //   data
-        // ]
-        
-        // fetch('/api/add-survey', {
-        //   method: 'POST',
-        //   headers: {
-        //     'Content-Type': 'application/json'
-        //   },
-        //   body: JSON.stringify(surveyD)
-        // })
-        // .then(() => {
-        //   alert('Added')
-        // })
-        // .catch(error => {
-        //   alert('Error')
-        //   console.log(error)
-        // });
-        // console.log(surveyD)
+        fetch('/api/add-survey', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(surveyD)
+        })
+        .then(() => {
+          alert('Added')
+        })
+        .catch(error => {
+          alert('Error')
+          console.log(error)
+        });
     }
     const addQuestionHtml = () => {
       setQuestions(questions + 1)
@@ -71,6 +99,11 @@ export default function Add() {
         <div className="w-full md:w-96 p-3.5 gap-6 rounded-xl my-6 shadow-2xl bg-[#9AC1F0] py-6">
           <h1 className="text-3xl text-white font-extrabold">Add Survey</h1>
         </div>
+        <div className="w-full mr-2">
+          <label htmlFor="surveyName" className="block text-gray-700 font-bold mb-2 opacity-50">Survey Name</label>
+          <input id="surveyName" name="surveyName" type="text" className="border-solid w-full py-2 px-3 outline-none border-slate-300 border focus:border-blue-500 rounded" />
+        </div>
+        <br></br>
         <div className="w-full max-w-lg mx-auto">
           {   new Array(questions).fill(0).map((value , key) =>(
             <Question key={key} name={key} />
