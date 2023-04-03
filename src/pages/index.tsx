@@ -22,9 +22,6 @@ export default function Home() {
     })
   } ,[])
 
-  useEffect(() => {
-    console.log(data)
-  } , [data])
   return (
     <div className="w-screen min-h-screen flex justify-center items-center relative">
       <div className="wrapper">
