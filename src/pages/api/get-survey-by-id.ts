@@ -16,8 +16,8 @@ async function getData(surveyId : string) {
             id : surveyId
         }, 
         select : {
-            title : true, 
-            questions : true
+            surveyName : true, 
+            surveyQuestions : true
         }
     })
     return survey

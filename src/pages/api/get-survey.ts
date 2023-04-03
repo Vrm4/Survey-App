@@ -13,7 +13,7 @@ const prisma = new PrismaClient({
 async function getData() { 
     const survey = await prisma.survey.findMany({
         select : {
-            title : true, 
+            surveyName : true, 
             id : true 
         }
     })

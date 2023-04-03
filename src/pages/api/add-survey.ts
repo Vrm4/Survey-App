@@ -21,8 +21,8 @@ async function main(surveyName : string  , questionArray : Array<{
 }>) { 
     const survey = await prisma.survey.create({
         data: {
-            title: surveyName,
-            questions: questionArray,
+            surveyName: surveyName,
+            surveyQuestions: questionArray,
         }
     })
     console.log(survey)

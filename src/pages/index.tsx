@@ -28,10 +28,10 @@ export default function Home() {
   return (
     <div className="w-screen min-h-screen flex justify-center items-center relative">
       <div className="wrapper">
-        { data.length != 0 ? data.map((value : { title: string , id : string } , index : number) => (
+        { data.length != 0 ? data.map((value : { surveyName: string , id : string } , index : number) => (
             <Link href={`/survey?id=${value.id}`} key={index}>
               <div  className="w-full md:w-96 rounded-xl bg-gradient-to-r from-blue-200 to-gray-500 p-6 hover:shadow-2xl">
-                <h1 className="text-white text-3xl font-bold">{value.title}</h1>
+                <h1 className="text-white text-3xl font-bold">{value.surveyName}</h1>
               </div>
             </Link>
         )) : null} 
