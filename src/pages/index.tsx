@@ -1,3 +1,4 @@
+import Head from "next/head";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
@@ -23,7 +24,11 @@ export default function Home() {
   } ,[])
 
   return (
-    <div className="w-screen min-h-screen flex justify-center items-center relative">
+      <>
+      <Head>
+        <title>Home</title>
+      </Head>
+          <div className="w-screen min-h-screen flex justify-center items-center relative">
       <div className="wrapper">
         { data.length != 0 ? data.map((value : { surveyName: string , id : string } , index : number) => (
             <Link href={`/survey?id=${value.id}`} key={index}>
@@ -42,5 +47,6 @@ export default function Home() {
         </Link>
       </div>
     </div>
+    </>
   );
 }

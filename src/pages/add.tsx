@@ -1,23 +1,13 @@
 import React, { useEffect, useState } from "react";
 import Question from "./question";
+import Link from "next/link";
+import './schema/survey'
+import Head from "next/head";
 
-type questionDatas = {
-    question : string , 
-    type : string  , 
-    subQuestion : Array<subQuestion>
-}
-type surveyDatas = [
-    surveyName : string , 
-    surveyQuestions : Array<questionDatas>
-]
-type subQuestion = {
-    value : string , 
-    number  : number | string
-}
 export default function Add() {
   const [questions  , setQuestions] = useState(1)
   const groupInputs = (formElements: HTMLInputElement[] , inputName : string) =>  {
-    const inputGroups = {};
+    const inputGroups: Record<string, subQuestion[]> = {};
   
     formElements
       .filter((input: HTMLInputElement) => input.type === 'text' && input.name.startsWith(inputName))
@@ -93,8 +83,12 @@ export default function Add() {
       setQuestions(questions + 1)
     }
   return (
+    <>
+        <Head>
+    <title>Add Survey</title>
+  </Head>
     <div className="w-screen min-h-screen flex justify-center items-center relative">
-      <div>
+      <div className="my-16">
       <form onSubmit={handleSubmit}>
         <div className="w-full md:w-96 p-3.5 gap-6 rounded-xl my-6 shadow-2xl bg-[#9AC1F0] py-6">
           <h1 className="text-3xl text-white font-extrabold">Add Survey</h1>
@@ -126,6 +120,18 @@ export default function Add() {
         </div>
         </form>
       </div>
+      <div className="absolute top-5 right-5 inline-flex grid gap-2">
+          <Link href='/add'>
+              <button className="bg-green-500 hover:bg-green-600 text-white font-bold py-1 px-2 rounded-md">Add</button>
+          </Link>
+          <Link href='/results'>
+              <button className="bg-orange-500 hover:bg-orange-600 text-white font-bold py-1 px-2 rounded-md">Results</button>
+          </Link>
+          <Link href='/'>
+              <button className="bg-purple-500 hover:bg-purple-800 text-white font-bold py-1 px-2 rounded-md">Home</button>
+          </Link>
+        </div>
     </div>
+    </>
   );
 }

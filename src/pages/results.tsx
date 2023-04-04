@@ -1,5 +1,7 @@
+import Head from "next/head";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+
 
 export default function Results(){
     const [data , setData] = useState([])
@@ -21,6 +23,10 @@ export default function Results(){
         })
       } ,[])
     return(
+<>
+<Head>
+      <title>Results</title>
+    </Head>
         <div className="w-screen min-h-screen flex justify-center items-center relative">
         <div className="wrapper">
         <div className="w-full md:w-96 p-3.5 gap-6 rounded-xl my-5 shadow-2xl bg-[#9AC1F0] py-6">
@@ -42,7 +48,10 @@ export default function Results(){
           <Link href='/results'>
               <button className="bg-orange-500 hover:bg-orange-600 text-white font-bold py-1 px-2 rounded-md">Results</button>
           </Link>
+          <Link href='/'>
+              <button className="bg-purple-500 hover:bg-purple-800 text-white font-bold py-1 px-2 rounded-md">Home</button>
+          </Link>
         </div>
-      </div>
+      </div></>
     )
 }

@@ -49,7 +49,7 @@ export default function Question(props: QuestionProps) {
               id="baslik"
               type="text"
               name={`input-${props.name}`}
-              placeholder="Başlık girin"
+              placeholder="Title"
             />
           </div>
           <div className="field mb-4">
