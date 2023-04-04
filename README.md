@@ -1,7 +1,7 @@
 
 ## Getting Started
 
-### Clone the project and install npm after you must set the .env file 
+### Clone the project and install npm , after you must set the .env file 
 
 
 ``` 
